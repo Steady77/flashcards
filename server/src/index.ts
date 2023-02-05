@@ -1,11 +1,37 @@
 import express from 'express';
+import authRoutes from './auth/auth.routes';
+import usersRoutes from './user/user.routes';
+import morgan from 'morgan';
+import dotenv from 'dotenv';
+import { prisma } from './prisma';
+import { errorHandler, notFound } from './middleware/error.middleware';
+
+dotenv.config();
 
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send('Hello world');
-});
+const PORT = process.env.PORT || 5000;
 
-app.listen(5000, () => {
-  console.log('Server started');
-});
+async function main() {
+	if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
+
+	app.use(express.json());
+	app.use('/api/auth', authRoutes);
+	app.use('/api/users', usersRoutes);
+	app.use(notFound);
+	app.use(errorHandler);
+
+	app.listen(PORT, () => {
+		console.log('Server started');
+	});
+}
+
+main()
+	.then(async () => {
+		await prisma.$disconnect();
+	})
+	.catch(async (e) => {
+		console.error(e);
+		await prisma.$disconnect();
+		process.exit(1);
+	});
