@@ -1,5 +1,6 @@
 import express from 'express';
 import authRoutes from './auth/auth.routes';
+import usersRoutes from './user/user.routes';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import { prisma } from './prisma';
@@ -16,6 +17,7 @@ async function main() {
 
 	app.use(express.json());
 	app.use('/api/auth', authRoutes);
+	app.use('/api/users', usersRoutes);
 	app.use(notFound);
 	app.use(errorHandler);
 
