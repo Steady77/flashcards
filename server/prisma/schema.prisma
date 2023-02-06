@@ -20,3 +20,24 @@ model User {
   password     String
   image        String
 }
+
+model Deck {
+  id           Int         @id @default(autoincrement())
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @updatedAt @map("updated_at")
+
+  title        String
+  cards        Card[]
+}
+
+model Card {
+  id           Int         @id @default(autoincrement())
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @updatedAt @map("updated_at")
+
+  frontText    String      @map("front_text")
+  backText     String      @map("back_text")
+
+  Deck         Deck?       @relation(fields: [deckId], references: [id])
+  deckId       Int
+}
