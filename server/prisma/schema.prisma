@@ -14,9 +14,33 @@ model User {
   id           Int         @id @default(autoincrement())
   createdAt    DateTime    @default(now()) @map("created_at")
   updatedAt    DateTime    @updatedAt @map("updated_at")
-
   email        String      @unique
   name         String 
   password     String
   image        String
+
+  decks         Deck[]
+}
+
+model Deck {
+  id           Int         @id @default(autoincrement())
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @updatedAt @map("updated_at")
+  title        String
+
+  cards        Card[]
+
+  user         User        @relation(fields: [userId], references: [id])
+  userId       Int
+}
+
+model Card {
+  id           Int         @id @default(autoincrement())
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @updatedAt @map("updated_at")
+  frontText    String      @map("front_text")
+  backText     String      @map("back_text")
+
+  deck         Deck        @relation(fields: [deckId], references: [id])
+  deckId       Int
 }
