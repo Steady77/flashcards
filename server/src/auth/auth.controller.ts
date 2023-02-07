@@ -25,8 +25,9 @@ export const loginUser = asyncHandler(async (req: TypedRequestBody<AuthBody>, re
 			res.status(401);
 			throw new Error('Email or password are not correct');
 		}
-
-		res.json(user);
+	} else {
+		res.status(400);
+		throw new Error('User not found');
 	}
 });
 
