@@ -8,8 +8,6 @@ export const createDeck = asyncHandler(async (req: TypedRequestBody<DeckBody>, r
 		const { title } = req.body;
 		const userId = req.user?.id;
 
-		if (!userId) return;
-
 		const deck = await prisma.deck.create({
 			data: {
 				title,
