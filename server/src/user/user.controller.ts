@@ -10,10 +10,15 @@ export const getUserProfile = asyncHandler(async (req: Request, res: Response) =
 		select: {
 			id: true,
 			createdAt: true,
+			updatedAt: true,
 			email: true,
 			image: true,
-			updatedAt: true,
 			name: true,
+			decks: {
+				include: {
+					cards: true,
+				},
+			},
 		},
 	});
 

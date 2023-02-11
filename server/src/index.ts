@@ -26,7 +26,7 @@ async function main() {
 
 	app.use('/api/auth', authRoutes);
 	app.use('/api/users', usersRoutes);
-	app.use('/api/decks', deckRoutes);
+	app.use('/api/decks', deckRoutes, cardRoutes);
 
 	app.use(notFound);
 	app.use(errorHandler);
